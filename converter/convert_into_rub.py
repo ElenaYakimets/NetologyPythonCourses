@@ -18,4 +18,4 @@ def count_exp(input_path):
     print(math.ceil(sum_rub))
     return sum_rub
 
-count_exp("C:\\Users\\Taya\\Desktop\\Coursera analytics\\Python\\python-netology\\currency_rate, xml, soap\\currencies.txt")
+count_exp("/Users/crashover/PycharmProjects/Netology/converter/currencies.txt")

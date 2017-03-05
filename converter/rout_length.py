@@ -20,5 +20,4 @@ def count_route_length(input_path):
 
 
 count_route_length(
-    "C:\\Users\\Taya\\Desktop\\Coursera analytics\\Python\\python-netology\\currency_rate, xml, soap\\travel.txt")
-import requests
+    "/Users/crashover/PycharmProjects/Netology/converter/travel.txt")

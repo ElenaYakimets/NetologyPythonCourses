@@ -16,9 +16,9 @@ def average_temperature_f_to_c(input_path):
         converted_temperature_c += client.service.ConvertTemp(Temperature=temperature_f, FromUnit='degreeFahrenheit',
                                                               ToUnit='degreeCelsius')
     average_temperature_c = converted_temperature_c / len(file_lines)
-    print(average_temperature_c)
+    print('Средняя температура по Цельсию: ', average_temperature_c, 'градусов')
     return average_temperature_c
 
 
 average_temperature_f_to_c(
-    "C:\\Users\\Taya\\Desktop\\Coursera analytics\\Python\\python-netology\\currency_rate, xml, soap\\temps.txt")
+    "/Users/crashover/PycharmProjects/Netology/converter/temps.txt")
