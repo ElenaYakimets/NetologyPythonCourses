@@ -1,5 +1,7 @@
 from urllib.parse import urlencode, urlparse
 import requests
+import json
+
 
 
 AUTHORIZE_URL = 'https://oauth.vk.com/authorize'
@@ -24,14 +26,22 @@ access_token = fragments['access_token']
 params = {'access_token': access_token,
           'v': VERSION}
 
-# получаем список моих друзей
-response = requests.get('https://api.vk.com/method/friends.getOnline', params)
-print('Мои друзья:', set(response.json()['response']))
+json_string = """ {"count": 216, "items": [30167, 55517, 121096, 178823, 194482, 212002, 235272, 267728, 363210, 404684, 434690, 440358, 564515, 666056, 669616, 672429, 674571, 680992, 693342, 830720, 836357, 854424, 854833, 876823, 941160, 980689, 1000000, 1002988, 1109857, 1127952, 1199578, 1300017, 1303694, 1307683, 1343364, 1379643, 1411905, 1485865, 1562198, 1587185, 1599249, 1693517, 1800058, 1823011, 1865431, 1909241, 1940950, 2074894, 2120730, 2137008, 2159793, 2195357, 2203228, 2206014, 2207048, 2261729, 2282165, 2331534, 2390544, 2419019, 2446111, 2476269, 2591688]} """
+parsed_string = json.loads(json_string)
 
-my_friens = set(response.json()['response'])
+response = requests.get('https://api.vk.com/method/friends.get', params)
+print('Исходный ответ', response.json()['response'])
+print('Друзья после парсинга', parsed_string["items"])
+
+
+# получаем список моих друзей онлайн
+#response = requests.get('https://api.vk.com/method/friends.getOnline', params)
+#print('Мои друзья:', set(response.json()['response']))
+
+my_friens = set(parsed_string["items"])
 
 # получаем список друзей моих друзей
-for user_id in response.json()['response']:
+for user_id in parsed_string["items"]:
     response = requests.get('https://api.vk.com/method/friends.get', {'user_id': user_id})
     print('Друзья моих друзей:', set(response.json()['response']))
 
