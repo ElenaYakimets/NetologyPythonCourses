@@ -24,21 +24,20 @@ access_token = fragments['access_token']
 params = {'access_token': access_token,
           'v': VERSION}
 
+# получаем список моих друзей
 response = requests.get('https://api.vk.com/method/friends.getOnline', params)
-print('Мои друзья:', (response.json()['response']))
+print('Мои друзья:', set(response.json()['response']))
 
+my_friens = set(response.json()['response'])
 
-
+# получаем список друзей моих друзей
 for user_id in response.json()['response']:
     response = requests.get('https://api.vk.com/method/friends.get', {'user_id': user_id})
-    print('Друзья моих друзей:', list(response.json()['response']))
+    print('Друзья моих друзей:', set(response.json()['response']))
 
-target_uids = list(response.json()['response'])
+target_uids = set(response.json()['response'])
 
-params2 = {'access_token': access_token,
-    'target_uids': target_uids}
+# находим пересечение
+mutual_friens = my_friens & target_uids
 
-print('Количество друзей моих друзей:', len(target_uids))
-
-# response2 = requests.get('https://api.vk.com/method/friends.getMutual', params2)
-# print('Общие друзья с', response2.json())
+print('Общие друзья', mutual_friens)
