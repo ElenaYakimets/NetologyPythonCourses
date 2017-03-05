@@ -15,7 +15,7 @@ auth_data = {
 }
 print('?'.join((AUTHORIZE_URL, urlencode(auth_data))))
 
-token_url = 'https://oauth.vk.com/blank.html#access_token=4bcfa16bd2999bac6c6c06165c4acd5fe6584a638a54ba1657a8293d329ca62b0828f50dc45c9907aff2a&expires_in=86400&user_id=1009635'
+token_url = 'https://oauth.vk.com/blank.html#access_token=e87e536a1a6056e2e44cc6f9420273d1da81c98514bb53d443f9a061cdff8ae272dafc18f25c96f956a55&expires_in=86400&user_id=1009635'
 
 o = urlparse(token_url)
 fragments = dict((i.split('=') for i in o.fragment.split('&')))
@@ -25,8 +25,16 @@ params = {'access_token': access_token,
           'v': VERSION}
 
 response = requests.get('https://api.vk.com/method/friends.getOnline', params)
-print(response.json())
+print('Мои друзья:', response.json())
 
 for user_id in response.json()['response']:
     response = requests.get('https://api.vk.com/method/friends.get', {'user_id': user_id})
-    print(response.json())
+    print('Друзья моих друзей:', list(response.json()['response']))
+
+# params2 = {'access_token': access_token,
+#     'target_uids': list(response.json()['response'])}
+#
+# print(params2)
+
+# response2 = requests.get('https://api.vk.com/method/friends.getMutual', params2)
+# print('Общие друзья с', response2.json())
